@@ -53,10 +53,10 @@
             <h2 class="section-title">Բժշկական տվյալներ</h2>
             <div class="info-grid">
                 <div class="info-item">
-                    <span class="label">Արյան խումբ</span>
-                    <span class="value">
-                        {{ user.patient_profile.blood_group.group_name|default_if_none:'<span class="not-specified">Նշված չէ</span>'|safe }}
-                    </span>
+                <span class="label">Արյան խումբ</span>
+                <span class="value">
+                    {% if user.patient_profile.blood_group %}{{ user.patient_profile.blood_group.group_name }}{% else %}<span class="not-specified">Նշված չէ</span>{% endif %}
+                </span>
                 </div>
                 <div class="info-item">
                     <span class="label">Քաշ</span>

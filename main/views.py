@@ -159,23 +159,19 @@ def logout_view(request):
     messages.info(request, "Դուք հաջողությամբ դուրս եկաք համակարգից։")
     return redirect("login")
 
-
 @login_required
 def profile_view(request):
-    context = {}
+    context = {
+        'user': request.user
+    }
     if hasattr(request.user, "patient_profile"):
         patient_profile = request.user.patient_profile
-        context["patient_conditions"] = PatientCondition.objects.filter(
-            patient=patient_profile
-        )
-        context["patient_medications"] = PatientMedication.objects.filter(
-            patient=patient_profile
-        )
-        context["patient_surgeries"] = PatientSurgery.objects.filter(
-            patient=patient_profile
-        )
-    return render(request, "profile.html", context)
-
+        context.update({
+            'patient_conditions': PatientCondition.objects.filter(patient=patient_profile).select_related('condition'),
+            'patient_medications': PatientMedication.objects.filter(patient=patient_profile).select_related('medication'),
+            'patient_surgeries': PatientSurgery.objects.filter(patient=patient_profile).select_related('surgery'),
+        })
+    return render(request, 'profile.html', context)
 
 @login_required
 def settings_view(request):
