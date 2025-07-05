@@ -378,14 +378,25 @@ def qr_code_view(request):
     return render(request, "qr_code.html", context)
 
 
-def public_profile_view(request, profile_id):
-    profile_user = get_object_or_404(CustomUser, public_profile_id=profile_id)
+def public_profile_view(request, user_id):
+
+    patient_user = get_object_or_404(
+        CustomUser, id=user_id, patient_profile__isnull=False
+    )
 
     context = {
-        "profile_user": profile_user,
+        "patient": patient_user,
+        "patient_conditions": PatientCondition.objects.filter(
+            patient=patient_user.patient_profile
+        ),
+        "patient_medications": PatientMedication.objects.filter(
+            patient=patient_user.patient_profile
+        ),
+        "patient_surgeries": PatientSurgery.objects.filter(
+            patient=patient_user.patient_profile
+        ),
     }
-
-    return render(request, "public_profile.html", context)
+    return render(request, "patient_details.html", context)
 
 
 def find_hospital(request):
