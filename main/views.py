@@ -3,7 +3,6 @@ import json
 import os
 import pickle
 from io import BytesIO
-
 import cv2
 import mediapipe as mp
 import numpy as np

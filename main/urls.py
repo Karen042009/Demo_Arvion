@@ -19,7 +19,7 @@ urlpatterns = [
         "profile/<uuid:profile_id>/", views.public_profile_view, name="public_profile"
     ),
     path("qr-code/", views.qr_code_view, name="qr_code"),
-    path("logout/", LogoutView.as_view(next_page="arvion"), name="logout"),
+    path("logout/", views.arvion, name="logout"),
     path("api/login/", views.login_api_view, name="login_api_view"),
     path(
         "search/photo/", views.search_patient_by_photo, name="search_patient_by_photo"
