@@ -16,7 +16,6 @@ from django.db import IntegrityError, transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-
 from .management.commands.train_face_model import extract_embedding
 from .models import (
     Allergy,
@@ -381,11 +380,23 @@ def qr_code_view(request):
 def public_profile_view(request, profile_id):
     profile_user = get_object_or_404(CustomUser, public_profile_id=profile_id)
 
+    if not hasattr(profile_user, "patient_profile"):
+        messages.error(request, "Հիվանդի պրոֆիլը գոյություն չունի։")
+        return redirect("arvion")
     context = {
-        "profile_user": profile_user,
+        "patient": profile_user,
+        "patient_conditions": PatientCondition.objects.filter(
+            patient=profile_user.patient_profile
+        ),
+        "patient_medications": PatientMedication.objects.filter(
+            patient=profile_user.patient_profile
+        ),
+        "patient_surgeries": PatientSurgery.objects.filter(
+            patient=profile_user.patient_profile
+        ),
     }
 
-    return render(request, "public_profile.html", context)
+    return render(request, "patient_details.html", context)
 
 
 def find_hospital(request):
