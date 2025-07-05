@@ -1,6 +1,6 @@
       :root {
         --primary-bg: #043873; --secondary-bg: #0a2a54; --text-primary: #ffffff;
-        --text-secondary: #c0c8d4; --border-color: rgba(255, 255, 255, 0.15);
+        --text-secondary: #c0c8d4; --border-color: rgba(255, 255, 255, 1);
         --accent-color: #58a6ff; --button-primary: #58a6ff;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,11 +36,11 @@
         }
 
         .sidebar-nav ul {
-            display: flex;
-            overflow-x: auto;
+            display: flex; 
+            overflow-x: auto; 
             padding-bottom: 10px;
         }
-
+        
         .sidebar-nav li {
             flex-shrink: 0;
         }
@@ -55,7 +55,7 @@
         }
 
         .qr-image-container img {
-            width: 220px;
+            width: 220px; 
             height: 220px;
         }
 
